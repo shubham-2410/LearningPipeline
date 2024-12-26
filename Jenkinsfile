@@ -39,19 +39,70 @@
 
 
 
-node{
-  stage('Build'){
-        echo 'building'
-  }
-  stage('Test'){
-    echo 'testing'
-  }
+// node{
+//   stage('Build'){
+//         echo 'building'
+//   }
+//   stage('Test'){
+//     echo 'testing'
+//   }
 
-  if(currentBuild.result =='SUCCESS'){
-    echo 'looks good'
-  }
-  else{
-    echo 'failed'
-  }
+//   if(currentBuild.result =='SUCCESS'){
+//     echo 'looks good'
+//   }
+//   else{
+//     echo 'failed'
+//   }
     
+// }
+
+
+pipeline{
+	agent any
+	environment{
+		PYTHON_PATH = 'C:\Users\HP\AppData\Local\Programs\Python\Python311;C:\Users\HP\AppData\Local\Programs\Python\Python311\Scripts'
+	}
+	
+	stages{
+		stage('Checkout'){
+			step{
+				checkout scm
+			}
+		}
+
+		stage('Build'){
+			step{
+				bat '''
+					set PATH = %PYTHON_PATH%;%PATH%
+pip install -r requirements.txt
+				'''
+			}
+		}
+	
+		stage('SonarAnalysis'){
+			environment{
+				SONAR_TOKEN = credentials('sonarqube-token')
+			}
+
+			steps{
+				bat '''
+					set PATH = %PYTHON_PATH%;%PATH%
+					sonar-scanner -Dsonar.projectKey=LearnPipeline ^
+          -Dsonar.sources=. ^
+          -Dsonar.host.url=http://localhost:9000 ^
+          -Dsonar.token=sqp_b84497ec832810b9a7b7543524cb4b4eebc50f98
+				'''
+			}
+		}
+	}
+
+  post{
+    success{
+      echo "Pipeline Successfull"
+    }
+    failure{
+      echo "Pipeline Failure"
+    }
+  }
 }
+
