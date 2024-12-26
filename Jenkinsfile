@@ -74,7 +74,7 @@ pipeline{
 			step{
 				bat '''
 					set PATH = %PYTHON_PATH%;%PATH%
-pip install -r requirements.txt
+					pip install -r requirements.txt
 				'''
 			}
 		}
@@ -88,9 +88,9 @@ pip install -r requirements.txt
 				bat '''
 					set PATH = %PYTHON_PATH%;%PATH%
 					sonar-scanner -Dsonar.projectKey=LearnPipeline ^
-          -Dsonar.sources=. ^
-          -Dsonar.host.url=http://localhost:9000 ^
-          -Dsonar.token=sqp_b84497ec832810b9a7b7543524cb4b4eebc50f98
+          				-Dsonar.sources=. ^
+          				-Dsonar.host.url=http://localhost:9000 ^
+          				-Dsonar.token=%SONAR_TOKEN%
 				'''
 			}
 		}
