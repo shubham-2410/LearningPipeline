@@ -60,7 +60,7 @@
 pipeline{
 	agent any
 	environment{
-		PYTHON_PATH = 'C:\Users\HP\AppData\Local\Programs\Python\Python311;C:\Users\HP\AppData\Local\Programs\Python\Python311\Scripts'
+		PYTHON_PATH = 'C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python311;C:\\Users\\HP\\AppData\\Local\\Programs\\Python\\Python311\\Scripts'
 	}
 	
 	stages{
