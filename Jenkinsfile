@@ -65,13 +65,13 @@ pipeline{
 	
 	stages{
 		stage('Checkout'){
-			step{
+			steps{
 				checkout scm
 			}
 		}
 
 		stage('Build'){
-			step{
+			steps{
 				bat '''
 					set PATH = %PYTHON_PATH%;%PATH%
 					pip install -r requirements.txt
